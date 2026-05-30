@@ -1,19 +1,22 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
+	"github.com/vikonad/book-collage/internal/graphics"
 	"github.com/vikonad/book-collage/internal/parser"
 )
 
 func main() {
+	// Inside your main() function:
 	books, err := parser.ParseCSV("goodreads_library_export.csv")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, book := range books {
-		fmt.Printf("Title: %s | Rating: %s\n", book.Title, book.MyRating)
+	// Pass the 'books' slice we got from the parser into the graphics package!
+	err = graphics.GenerateCollage("my_collage.png", books)
+	if err != nil {
+		log.Fatal(err)
 	}
 }
