@@ -2,7 +2,6 @@ package parser
 
 import (
 	"encoding/csv"
-	"fmt"
 	"os"
 )
 
@@ -32,8 +31,14 @@ func ParseCSV(filePath string) ([]Book, error) {
 			continue
 		}
 
-		if len(row) > 0 {
-			fmt.Println("Found a book row:", row[1])
+		if len(row) >= 3 {
+			book := Book{
+				Title:    row[1],
+				Author:   row[2],
+				MyRating: row[7],
+			}
+
+			books = append(books, book)
 		}
 	}
 
