@@ -1,13 +1,13 @@
 package graphics
 
 import (
-	"fmt"
+	"io"
 
 	"github.com/fogleman/gg"
 	"github.com/vikonad/book-collage/internal/parser"
 )
 
-func GenerateCollage(outputPath string, books []parser.Book) error {
+func GenerateCollage(w io.Writer, books []parser.Book) error {
 	const S = 1200
 	dc := gg.NewContext(S, S)
 
@@ -15,21 +15,16 @@ func GenerateCollage(outputPath string, books []parser.Book) error {
 	dc.Clear()
 
 	dc.SetRGB(1, 1, 1)
-
-	err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 24)
-	if err != nil {
-		print("Warning: could not load font file, using fallback\n")
-	}
+	_ = dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 24)
 
 	yPosition := 100.0
 	for i, book := range books {
-		fmt.Println(book)
-		if i >= 5 {
+		if i >= 10 {
 			break
 		}
 		dc.DrawString(book.Title+" - "+book.Author, 100, yPosition)
 		yPosition += 60
 	}
 
-	return dc.SavePNG(outputPath)
+	return dc.EncodePNG(w)
 }

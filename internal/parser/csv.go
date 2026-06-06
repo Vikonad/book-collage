@@ -2,7 +2,7 @@ package parser
 
 import (
 	"encoding/csv"
-	"os"
+	"io"
 )
 
 type Book struct {
@@ -11,34 +11,24 @@ type Book struct {
 	MyRating string
 }
 
-func ParseCSV(filePath string) ([]Book, error) {
-	file, err := os.Open(filePath)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	reader := csv.NewReader(file)
+func ParseCSV(r io.Reader) ([]Book, error) {
+	reader := csv.NewReader(r)
 	records, err := reader.ReadAll()
 	if err != nil {
 		return nil, err
 	}
 
 	var books []Book
-
 	for i, row := range records {
 		if i == 0 {
 			continue
 		}
-
-		if len(row) >= 3 {
-			book := Book{
+		if len(row) > 1 {
+			books = append(books, Book{
 				Title:    row[1],
 				Author:   row[2],
 				MyRating: row[7],
-			}
-
-			books = append(books, book)
+			})
 		}
 	}
 
