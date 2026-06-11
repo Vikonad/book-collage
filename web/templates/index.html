@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Book Collage Generator</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                background: #1a1d24;
+                color: #fff;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+            .card {
+                background: #242933;
+                padding: 30px;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+                text-align: center;
+                max-width: 450px;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            input[type="file"] {
+                margin: 20px 0;
+                display: block;
+                width: 100%;
+            }
+            button,
+            .btn {
+                background: #4f46e5;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                text-decoration: none;
+                display: inline-block;
+            }
+            button:hover,
+            .btn:hover {
+                background: #4338ca;
+            }
+
+            /* Result styling hidden by default */
+            #result-container {
+                display: none;
+                text-align: center;
+                max-width: 600px;
+                width: 100%;
+            }
+            #collage-preview {
+                width: 100%;
+                border-radius: 8px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+                margin-bottom: 15px;
+            }
+            .btn-success {
+                background: #10b981;
+            }
+            .btn-success:hover {
+                background: #059669;
+            }
+            #loading {
+                display: none;
+                color: #a1a1aa;
+                margin-top: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h2>Book Collage Generator</h2>
+            <p>Upload your Goodreads export .csv file</p>
+            <form id="upload-form">
+                <input
+                    type="file"
+                    name="goodreads_csv"
+                    accept=".csv"
+                    required
+                />
+                <button type="submit">Generate Collage</button>
+            </form>
+            <div id="loading">Generating your masterpiece... 📚</div>
+        </div>
+
+        <div id="result-container">
+            <h3>Your Personalized Collage</h3>
+            <img id="collage-preview" src="" alt="Your Book Collage" />
+            <br />
+            <a
+                id="download-btn"
+                class="btn btn-success"
+                href="#"
+                download="my_book_collage.png"
+                >Download Image</a
+            >
+        </div>
+
+        <script>
+            document
+                .getElementById("upload-form")
+                .addEventListener("submit", async (e) => {
+                    e.preventDefault();
+
+                    const form = e.target;
+                    const formData = new FormData(form);
+                    const loadingDiv = document.getElementById("loading");
+                    const resultContainer =
+                        document.getElementById("result-container");
+                    const previewImg =
+                        document.getElementById("collage-preview");
+                    const downloadBtn = document.getElementById("download-btn");
+
+                    loadingDiv.style.display = "block";
+                    resultContainer.style.display = "none";
+
+                    try {
+                        const response = await fetch("/generate", {
+                            method: "POST",
+                            body: formData,
+                        });
+
+                        if (!response.ok) {
+                            throw new Error("Failed to generate image");
+                        }
+
+                        const imageBlob = await response.blob();
+                        const imageObjectURL = URL.createObjectURL(imageBlob);
+
+                        previewImg.src = imageObjectURL;
+                        downloadBtn.href = imageObjectURL;
+
+                        resultContainer.style.display = "block";
+                    } catch (err) {
+                        alert(
+                            "Oops! Something went wrong generating your collage.",
+                        );
+                        console.error(err);
+                    } finally {
+                        loadingDiv.style.display = "none";
+                    }
+                });
+        </script>
+    </body>
+</html>
