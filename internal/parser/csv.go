@@ -9,6 +9,7 @@ type Book struct {
 	Title    string
 	Author   string
 	MyRating string
+	Status   string
 }
 
 func ParseCSV(r io.Reader) ([]Book, error) {
@@ -28,6 +29,7 @@ func ParseCSV(r io.Reader) ([]Book, error) {
 				Title:    row[1],
 				Author:   row[2],
 				MyRating: row[7],
+				Status:   row[17],
 			})
 		}
 	}
