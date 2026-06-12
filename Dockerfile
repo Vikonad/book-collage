@@ -20,7 +20,7 @@ RUN apk add --no-cache ca-certificates
 WORKDIR /app
 
 # 1. Copy the compiled app from the builder stage
-COPY --from=builder /app/book-server .
+COPY --from=builder /app/collage .
 
 # 2. Copy your design assets (fonts, images)
 COPY --from=builder /app/assets ./assets
