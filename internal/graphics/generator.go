@@ -40,20 +40,20 @@ func GenerateCollage(w io.Writer, books []parser.Book) error {
 	dc.SetRGB(0.11, 0.13, 0.17)
 	dc.Clear()
 
-	logoImg, err := gg.LoadImage("logo.png")
+	logoImg, err := gg.LoadImage("assets/goodreads-logo.png")
 	if err != nil {
 		return fmt.Errorf("CRITICAL ERROR: failed to load logo: %w", err)
 	}
 	logoImg = resize.Resize(400, 0, logoImg, resize.Lanczos3)
 	dc.DrawImage(logoImg, 700, 50)
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 48); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 48); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(0.31, 0.53, 0.96)
 	dc.DrawString("My Literary Journey", 100, 95)
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 20); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 20); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(0.55, 0.60, 0.68)
@@ -63,43 +63,43 @@ func GenerateCollage(w io.Writer, books []parser.Book) error {
 	// STATS
 	//
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 30); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 30); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(1, 1, 1)
 	dc.DrawString("To-Read", 190, 230)
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 140); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 140); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(1, 1, 1)
 	dc.DrawStringAnchored(strconv.Itoa(get_books_count_by_status(books, "to-read")), 247, 380, 0.5, 0.0)
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 30); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 30); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(1, 1, 1)
 	dc.DrawString("Your Total Books", 468, 230)
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 140); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 140); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(1, 1, 1)
 	dc.DrawStringAnchored(strconv.Itoa(get_books_count_by_status(books, "total")), 600, 380, 0.5, 0.0)
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 30); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 30); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(1, 1, 1)
 	dc.DrawString("Read", 918, 230)
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 140); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 140); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(1, 1, 1)
 	dc.DrawStringAnchored(strconv.Itoa(get_books_count_by_status(books, "read")), 951, 380, 0.5, 0.0)
 
-	if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 48); err != nil {
+	if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 48); err != nil {
 		return fmt.Errorf("could not load font: %w", err)
 	}
 	dc.SetRGB(0.31, 0.53, 0.96)
@@ -119,20 +119,19 @@ func GenerateCollage(w io.Writer, books []parser.Book) error {
 	yPosition := 570.0
 
 	for _, book := range books {
-		//fmt.Println(book.Status)
 		if book.Status == "currently-reading" {
 
 			cleanTitle := truncateText(book.Title, 75)
 
 			cleanAuthor := truncateText(book.Author, 40)
 
-			if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 26); err != nil {
+			if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 26); err != nil {
 				return err
 			}
 			dc.SetRGB(1, 1, 1)
 			dc.DrawString(cleanTitle, 130, yPosition)
 
-			if err := dc.LoadFontFace("RobotoSlab-VariableFont_wght.ttf", 18); err != nil {
+			if err := dc.LoadFontFace("assets/RobotoSlab-VariableFont_wght.ttf", 18); err != nil {
 				return err
 			}
 			dc.SetRGB(0.93, 0.60, 0.23)
