@@ -11,7 +11,7 @@ RUN go mod download
 COPY . .
 
 # Build a highly optimized, statically-linked production binary
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o book-collage ./cmd/book-collage
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s -extldflags '-static'" -o book-collage ./cmd/book-collage
 
 # Stage 2: Clean runtime environment
 FROM alpine:3.19
